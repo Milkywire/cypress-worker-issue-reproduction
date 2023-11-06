@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "cypress": "cypress open",
+    "start": "npx http-server"
+  },
+  "devDependencies": {
+    "cypress": "^13.4.0"
+  }
+}

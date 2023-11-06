@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cypress worker issue reproduction</title>
+    <script src="./index.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cypress worker issue reproduction</h1>
+      <button id="interceptCall" onclick="callApi(1)">
+        Call Intercepted API
+      </button>
+      <button id="serviceWorkerCall" onclick="callApi(2)">
+        Call ServiceWorker Handled API
+      </button>
+      <button onclick="unregisterServiceWorker()">Unregister</button>
+      <p id="paragraph"></p>
+    </div>
+  </body>
+</html>
