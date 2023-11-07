@@ -1,8 +1,6 @@
 describe("Service worker reproduction tests", () => {
   it("intercepts fetch", () => {
     cy.visit("/");
-    // do this to reload the page to ensure an active service worker
-    cy.reload();
 
     cy.intercept("https://jsonplaceholder.typicode.com/todos/1", {
       fixture: "intercept",
@@ -12,16 +10,19 @@ describe("Service worker reproduction tests", () => {
     cy.get("#paragraph").should("contain.text", "cypress intercept");
   });
 
-  it("intercepts fetch handled by vanilla service worker", () => {
+  it("intercepts fetch handled by msw", () => {
     cy.visit("/");
-    // do this to reload the page to ensure an active service worker
-    cy.reload();
 
     cy.intercept("https://jsonplaceholder.typicode.com/todos/1", {
       fixture: "intercept",
-    }).as("serviceWorkerRequest");
-    cy.get("#serviceWorkerCall").click();
+    }).as("mswRequest");
+    cy.get("#interceptCall").click();
+    cy.get("#paragraph").should("contain.text", "cypress intercept");
 
+    cy.get("#clear").click();
+    cy.get("#paragraph").should("contain.text", "");
+
+    cy.get("#mswCall").click();
     cy.get("#paragraph").should("contain.text", "cypress intercept");
   });
 });

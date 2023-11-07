@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Cypress worker issue reproduction</title>
+    <script src="https://unpkg.com/msw/lib/iife/index.js"></script>
     <script src="./index.js" defer></script>
   </head>
   <body>
@@ -11,10 +12,8 @@
       <button id="interceptCall" onclick="callApi(1)">
         Call Intercepted API
       </button>
-      <button id="serviceWorkerCall" onclick="callApi(2)">
-        Call ServiceWorker Handled API
-      </button>
-      <button onclick="unregisterServiceWorker()">Unregister</button>
+      <button id="mswCall" onclick="callApi(3)">Call MSW handled API</button>
+      <button id="clear" onclick="clearParagraph()">Clear</button>
       <p id="paragraph"></p>
     </div>
   </body>

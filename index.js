@@ -1,16 +1,28 @@
-function registerServiceWorker() {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js").then((reg) => {
-      if (reg.active) console.log("service worker active");
-    });
-  }
-}
+const { setupWorker, http, HttpResponse } = MockServiceWorker;
 
-function unregisterServiceWorker() {
-  navigator.serviceWorker.register("service-worker.js").then((reg) => {
-    reg.unregister();
-    console.log("service worker unregistered");
+const handlers = [
+  http.get("https://jsonplaceholder.typicode.com/todos/3", async () => {
+    console.log("msw intercepted!");
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/todos/1"
+    );
+    const json = await response.json();
+    return HttpResponse.json(json);
+  }),
+];
+
+let worker;
+function registerMSW() {
+  console.log("starting msw worker");
+  worker = setupWorker();
+
+  worker.start({
+    serviceWorker: {
+      url: "./mockServiceWorker.js",
+    },
   });
+
+  worker.use(...handlers);
 }
 
 /**
@@ -26,4 +38,9 @@ function callApi(todo) {
     });
 }
 
-registerServiceWorker();
+function clearParagraph() {
+  const div = document.getElementById("paragraph");
+  div.innerHTML = "";
+}
+
+registerMSW();
